@@ -8,25 +8,24 @@ import androidx.core.view.WindowInsetsCompat
 
 class NumberList(private val numbers: List<Int>) {
 
-    // processList — Exercise 1 function
+   
     fun processList(predicate: (Int) -> Boolean): List<Int> {
-        return numbers.filter(predicate)            // filter HOF + lambda
+        return numbers.filter(predicate)           
     }
 
-    // mapList — transforms each element
+   t
     fun mapList(transform: (Int) -> Int): List<Int> {
-        return numbers.map(transform)               // map HOF + lambda
+        return numbers.map(transform)              
     }
 
-    // foldList — reduces list to a single value
+
     fun foldList(initial: Int, accumulator: (Int, Int) -> Int): Int {
-        return numbers.fold(initial, accumulator)   // fold HOF + lambda
+        return numbers.fold(initial, accumulator)  
     }
 
     override fun toString(): String = numbers.toString()
 }
 
-// ── Menu & Entry Point ────────────────────────────────────────
 fun main() {
     val nums = NumberList(listOf(1, 2, 3, 4, 5, 6))
     var running = true
