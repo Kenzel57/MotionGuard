@@ -16,13 +16,11 @@ class PeopleCollection(private val people: List<Person>) {
         return people.filter { it.name.first() in letters }  // filter HOF + lambda
     }
 
-    // Step 2 — extract ages from a list of people
     // Uses a lambda transform: (Person) -> Int
     fun extractAges(persons: List<Person>): List<Int> {
         return persons.map { it.age }                        // map HOF + lambda
     }
 
-    // Step 3 — calculate average using fold
     // Uses a lambda accumulator: (Int, Int) -> Int
     fun calculateAverage(ages: List<Int>): Double {
         if (ages.isEmpty()) return 0.0
@@ -30,26 +28,26 @@ class PeopleCollection(private val people: List<Person>) {
         return sum.toDouble() / ages.size
     }
 
-    // Extra: filter by minimum age
+
     fun filterByMinAge(minAge: Int): List<Person> {
-        return people.filter { it.age >= minAge }            // filter HOF + lambda
+        return people.filter { it.age >= minAge }            
     }
 
     // Extra: get names only
     fun getNames(): List<String> {
-        return people.map { it.name }                        // map HOF + lambda
+        return people.map { it.name }                      
     }
 
     // Extra: oldest person using fold
     fun findOldest(): Person? {
-        return people.fold(people.first()) { oldest, person ->  // fold HOF + lambda
+        return people.fold(people.first()) { oldest, person -> 
             if (person.age > oldest.age) person else oldest
         }
     }
 
     // Extra: total age of everyone using fold
     fun totalAge(): Int {
-        return people.fold(0) { acc, person -> acc + person.age } // fold HOF + lambda
+        return people.fold(0) { acc, person -> acc + person.age }
     }
 
     override fun toString(): String = people.toString()
@@ -95,52 +93,51 @@ fun main() {
 
         when (choice) {
             "1" -> {
-                // ── Full Exercise 3 solution ──────────────
-                // Step 1: filter
+                // filter
                 val filtered = people.filterByNameStarting('A', 'B')
                 println("  [STEP 1 - FILTER] Names starting with A or B:")
                 filtered.forEach { println("  → ${it.name} (${it.age})") }  // forEach lambda
 
-                // Step 2: extract ages
+                //extract ages
                 val ages = people.extractAges(filtered)
                 println("\n  [STEP 2 - MAP] Extracted ages:")
                 println("  $ages")
 
-                // Step 3: calculate average (fold inside)
+                //calculate average (fold inside)
                 val average = people.calculateAverage(ages)
 
-                // Step 4: format and print
+                //format and print
                 println("\n  [STEP 3 & 4 - FOLD & FORMAT] Average age:")
                 println("  %.1f".format(average))
             }
             "2" -> {
-                val result = people.filterByNameStarting('A', 'B')  // filter lambda
+                val result = people.filterByNameStarting('A', 'B')  
                 println("  [FILTER] Names starting with A or B:")
                 result.forEach { println("  → ${it.name}, age ${it.age}") }
             }
             "3" -> {
                 val filtered = people.filterByNameStarting('A', 'B')
-                val ages = people.extractAges(filtered)              // map lambda
+                val ages = people.extractAges(filtered)             
                 println("  [MAP] Ages of A/B names:")
                 println("  $ages")
             }
             "4" -> {
-                val total = people.totalAge()                        // fold lambda
+                val total = people.totalAge()                       
                 println("  [FOLD] Total age of all people:")
                 println("  $total")
             }
             "5" -> {
-                val oldest = people.findOldest()                     // fold lambda
+                val oldest = people.findOldest()                     
                 println("  [FOLD] Oldest person:")
                 println("  ${oldest?.name}, age ${oldest?.age}")
             }
             "6" -> {
-                val result = people.filterByMinAge(25)               // filter lambda
+                val result = people.filterByMinAge(25)               
                 println("  [FILTER] People aged 25 and above:")
                 result.forEach { println("  → ${it.name}, age ${it.age}") }
             }
             "7" -> {
-                val names = people.getNames()                        // map lambda
+                val names = people.getNames()                        
                 println("  [MAP] All names:")
                 println("  $names")
             }
