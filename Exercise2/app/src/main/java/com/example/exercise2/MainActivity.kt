@@ -6,110 +6,99 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-class NumberList(private val numbers: List<Int>) {
+class WordCollection(private val words: List<String>) {
 
-    // processList — Exercise 1 function
-    fun processList(predicate: (Int) -> Boolean): List<Int> {
-        return numbers.filter(predicate)            // filter HOF + lambda
+    // Step 1: associateWith — creates a Map<String, Int> (word -> length)
+    // Uses a lambda: (String) -> Int
+    fun toWordLengthMap(): Map<String, Int> {
+        return words.associateWith { it.length }    // lambda: word -> its length
     }
 
-    // mapList — transforms each element
-    fun mapList(transform: (Int) -> Int): List<Int> {
-        return numbers.map(transform)               // map HOF + lambda
+    // Step 2: filter map entries where length > 4
+    // Uses a lambda predicate on map entries
+    fun filterByLength(map: Map<String, Int>, minLength: Int): Map<String, Int> {
+        return map.filter { (_, length) -> length > minLength }  // lambda: filter HOF
     }
 
-    // foldList — reduces list to a single value
-    fun foldList(initial: Int, accumulator: (Int, Int) -> Int): Int {
-        return numbers.fold(initial, accumulator)   // fold HOF + lambda
+    // Extra: map just the lengths
+    fun getLengths(): List<Int> {
+        return words.map { it.length }              // map HOF + lambda
     }
 
-    override fun toString(): String = numbers.toString()
+    // Extra: fold — total characters across all words
+    fun totalCharacters(): Int {
+        return words.fold(0) { acc, word -> acc + word.length } // fold HOF + lambda
+    }
+
+    // Extra: filter words by minimum length directly
+    fun wordsLongerThan(min: Int): List<String> {
+        return words.filter { it.length > min }     // filter HOF + lambda
+    }
+
+    override fun toString(): String = words.toString()
 }
 
 // ── Menu & Entry Point ────────────────────────────────────────
 fun main() {
-    val nums = NumberList(listOf(1, 2, 3, 4, 5, 6))
+    val words = WordCollection(listOf("apple", "cat", "banana", "dog", "elephant"))
     var running = true
 
     while (running) {
         println("\n==========================================")
-        println("  Higher-Order Functions — Choose Option  ")
+        println("  Exercise 2: Collection Transformations  ")
         println("==========================================")
-        println("  Original list: [1, 2, 3, 4, 5, 6]")
+        println("  Words: [apple, cat, banana, dog, elephant]")
         println("------------------------------------------")
-        println("  FILTER (processList)")
-        println("  1. Even numbers")
-        println("  2. Odd numbers")
-        println("  3. Numbers greater than 3")
-        println("  4. Numbers less than 4")
-        println("------------------------------------------")
-        println("  MAP")
-        println("  5. Double each number")
-        println("  6. Square each number")
-        println("  7. Add 10 to each number")
-        println("------------------------------------------")
-        println("  FOLD")
-        println("  8. Sum of all numbers")
-        println("  9. Product of all numbers")
+        println("  1. Show word → length map (associateWith)")
+        println("  2. Filter words with length > 4 (Exercise answer)")
+        println("  3. Show only word lengths (map)")
+        println("  4. Total characters across all words (fold)")
+        println("  5. Words longer than 3 characters (filter)")
         println("------------------------------------------")
         println("  0. Exit")
         println("==========================================")
         print("  Enter your choice: ")
 
         val choice = readLine()?.trim()
-
         println()
+
         when (choice) {
             "1" -> {
-                val result = nums.processList { it % 2 == 0 }       // lambda: even
-                println("  [FILTER] Even numbers")
-                println("  Result: $result")
+                val map = words.toWordLengthMap()       // associateWith lambda
+                println("  [MAP] Word → Length map:")
+                map.forEach { (word, length) ->         // forEach lambda
+                    println("  $word → $length")
+                }
             }
             "2" -> {
-                val result = nums.processList { it % 2 != 0 }       // lambda: odd
-                println("  [FILTER] Odd numbers")
-                println("  Result: $result")
+                // This is the exact exercise solution
+                val map = words.toWordLengthMap()       // associateWith lambda
+                val filtered = words.filterByLength(map, 4) // filter lambda
+                println("  [FILTER] Words with length > 4:")
+                filtered.forEach { (word, length) ->    // forEach lambda
+                    println("  $word has length $length")
+                }
             }
             "3" -> {
-                val result = nums.processList { it > 3 }            // lambda: > 3
-                println("  [FILTER] Numbers greater than 3")
-                println("  Result: $result")
+                val lengths = words.getLengths()        // map lambda
+                println("  [MAP] Word lengths:")
+                println("  $lengths")
             }
             "4" -> {
-                val result = nums.processList { it < 4 }            // lambda: < 4
-                println("  [FILTER] Numbers less than 4")
-                println("  Result: $result")
+                val total = words.totalCharacters()     // fold lambda
+                println("  [FOLD] Total characters across all words:")
+                println("  $total")
             }
             "5" -> {
-                val result = nums.mapList { it * 2 }                // lambda: double
-                println("  [MAP] Double each number")
-                println("  Result: $result")
-            }
-            "6" -> {
-                val result = nums.mapList { it * it }               // lambda: square
-                println("  [MAP] Square each number")
-                println("  Result: $result")
-            }
-            "7" -> {
-                val result = nums.mapList { it + 10 }               // lambda: +10
-                println("  [MAP] Add 10 to each number")
-                println("  Result: $result")
-            }
-            "8" -> {
-                val result = nums.foldList(0) { acc, n -> acc + n } // lambda: sum
-                println("  [FOLD] Sum of all numbers")
-                println("  Result: $result")
-            }
-            "9" -> {
-                val result = nums.foldList(1) { acc, n -> acc * n } // lambda: product
-                println("  [FOLD] Product of all numbers")
-                println("  Result: $result")
+                val result = words.wordsLongerThan(3)  // filter lambda
+                println("  [FILTER] Words longer than 3 characters:")
+                println("  $result")
             }
             "0" -> {
                 println("  Goodbye!")
                 running = false
             }
-            else -> println("  Invalid choice. Please enter a number from 0 to 9.")
+            else -> println("  Invalid choice. Please enter a number from 0 to 5.")
         }
     }
 }
