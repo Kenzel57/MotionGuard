@@ -8,37 +8,33 @@ import androidx.core.view.WindowInsetsCompat
 
 class WordCollection(private val words: List<String>) {
 
-    // Step 1: associateWith — creates a Map<String, Int> (word -> length)
-    // Uses a lambda: (String) -> Int
+
     fun toWordLengthMap(): Map<String, Int> {
-        return words.associateWith { it.length }    // lambda: word -> its length
+        return words.associateWith { it.length }   
     }
 
-    // Step 2: filter map entries where length > 4
-    // Uses a lambda predicate on map entries
+   
     fun filterByLength(map: Map<String, Int>, minLength: Int): Map<String, Int> {
-        return map.filter { (_, length) -> length > minLength }  // lambda: filter HOF
+        return map.filter { (_, length) -> length > minLength }  
     }
 
-    // Extra: map just the lengths
+    
     fun getLengths(): List<Int> {
-        return words.map { it.length }              // map HOF + lambda
-    }
-
-    // Extra: fold — total characters across all words
+        return words.map { it.length }              
+s
     fun totalCharacters(): Int {
-        return words.fold(0) { acc, word -> acc + word.length } // fold HOF + lambda
+        return words.fold(0) { acc, word -> acc + word.length } 
     }
 
-    // Extra: filter words by minimum length directly
+    y
     fun wordsLongerThan(min: Int): List<String> {
-        return words.filter { it.length > min }     // filter HOF + lambda
+        return words.filter { it.length > min }     
     }
 
     override fun toString(): String = words.toString()
 }
 
-// ── Menu & Entry Point ────────────────────────────────────────
+
 fun main() {
     val words = WordCollection(listOf("apple", "cat", "banana", "dog", "elephant"))
     var running = true
@@ -64,14 +60,14 @@ fun main() {
 
         when (choice) {
             "1" -> {
-                val map = words.toWordLengthMap()       // associateWith lambda
+                val map = words.toWordLengthMap()       
                 println("  [MAP] Word → Length map:")
-                map.forEach { (word, length) ->         // forEach lambda
+                map.forEach { (word, length) ->         
                     println("  $word → $length")
                 }
             }
             "2" -> {
-                // This is the exact exercise solution
+                
                 val map = words.toWordLengthMap()       // associateWith lambda
                 val filtered = words.filterByLength(map, 4) // filter lambda
                 println("  [FILTER] Words with length > 4:")
