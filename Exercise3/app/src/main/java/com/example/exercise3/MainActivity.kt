@@ -11,7 +11,6 @@ data class Person(val name: String, val age: Int)
 // ── OOP: Class encapsulating the people list ──────────────────
 class PeopleCollection(private val people: List<Person>) {
 
-    // Step 1 — filter by name starting with 'A' or 'B'
     // Uses a lambda predicate: (Person) -> Boolean
     fun filterByNameStarting(vararg letters: Char): List<Person> {
         return people.filter { it.name.first() in letters }  // filter HOF + lambda
