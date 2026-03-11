@@ -26,10 +26,8 @@ import java.io.FileOutputStream
 import java.io.InputStream
 
 class MainActivity : AppCompatActivity() {
-
     private val PICK_FILE_REQUEST = 1001
     private var studentResults: List<StudentResult> = emptyList()
-
     // Views
     private lateinit var btnUpload: Button
     private lateinit var btnDownload: Button
@@ -74,7 +72,7 @@ class MainActivity : AppCompatActivity() {
     private fun processExcelFile(uri: Uri) {
         try {
             val inputStream: InputStream = contentResolver.openInputStream(uri)
-                ?: throw Exception("Cannot open file")
+                ?: throw Exception("Cannot open file, please select correct file type")
 
             val workbook = WorkbookFactory.create(inputStream)
             val sheet = workbook.getSheetAt(0)
