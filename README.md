@@ -1,4 +1,5 @@
 Grade Calculator
+# MotionGuard
  Student Grade Calculator
 
 An Android application built in Kotlin that reads student marks from an Excel file, calculates averages, assigns grades, displays a grade distribution analysis, and exports the results back to a new Excel file.
